@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # Base vectorielle
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: guardian_qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+  # Postgres pour Airflow
+  postgres:
+    image: postgres:15
+    container_name: guardian_postgres
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Airflow Webserver & Scheduler (Simplifié pour Dev local)
+  airflow-standalone:
+    image: apache/airflow:2.8.1-python3.10
+    container_name: guardian_airflow
+    restart: always
+    depends_on:
+      - postgres
+      - qdrant
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./src:/opt/airflow/plugins/src
+    command: standalone
+
+volumes:
+  qdrant_data:
+  postgres_data:
