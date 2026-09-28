@@ -1,4 +1,4 @@
-#AI-DataOps-Guardian
+# AI-DataOps-Guardian
 
 > Enterprise-grade Data Quality, PII Masking & Semantic Deduplication Engine for RAG Infrastructure.
 
@@ -31,7 +31,7 @@ Deploying Generative AI (RAG) at scale introduces two critical engineering chall
     ├── Duplicate ──► [ REJECT & ALERT ]
     └── New Data  ──► [ UPSERT TO QDRANT ]
 
-##Quickstart
+## Quickstart
 
 docker-compose up -d 
 
@@ -41,7 +41,7 @@ access services :
 
 -Airflow Web UI : http://localhost:8080 (credentials: airflow / airflow)
 
-##Key Technical Features
+## Key Technical Features
 
 Deterministic PII Masking: Anonymizes sensitive tags (<EMAIL_MASKED>, <PHONE_MASKED>, <IBAN_MASKED>) before embedding.
 
