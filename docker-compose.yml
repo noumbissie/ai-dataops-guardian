@@ -34,12 +34,18 @@ services:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - _AIRFLOW_WWW_USER_USERNAME=airflow
+      - _AIRFLOW_WWW_USER_PASSWORD=airflow
+      - _PIP_ADDITIONAL_REQUIREMENTS=qdrant-client fastembed
     ports:
-      - "8081:8080"
+      - "8083:8080"
     volumes:
       - ./dags:/opt/airflow/dags
       - ./src:/opt/airflow/plugins/src
-    command: standalone
+    command: >
+      bash -c "airflow db migrate &&
+               airflow users create --username airflow --password airflow --firstname Admin --lastname User --role Admin --email admin@example.com || true &&
+               airflow standalone"
 
 volumes:
   qdrant_data:

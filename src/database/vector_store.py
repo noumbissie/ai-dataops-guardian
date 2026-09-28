@@ -15,6 +15,8 @@ class QdrantGuardianStore:
         self.collection_name = collection_name
 
         self.embedding_model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
+
+        #self.embedding_model = TextEmbedding(model_name="intfloat/multilingual-e5-small")
         
         self._ensure_collection_exists()
     
@@ -33,7 +35,7 @@ class QdrantGuardianStore:
         embeddings = list(self.embedding_model.embed([text]))
         return embeddings[0].tolist()
 
-    def check_duplicate_and_upsert(self, text: str, metadata: Dict[str, Any], threshold: float = 0.95) -> Tuple[bool, str]:
+    def check_duplicate_and_upsert(self, text: str, metadata: Dict[str, Any], threshold: float = 0.88) -> Tuple[bool, str]:
         """
         Vérifie si le document existe déjà de manière sémantique.
         Si la similarité > threshold, le document est rejeté (doublon).
@@ -42,11 +44,11 @@ class QdrantGuardianStore:
         vector = self._generate_embedding(text)
 
         # Recherche de similarité dans Qdrant
-        search_result = self.client.search(
+        search_result = self.client.query_points(
             collection_name=self.collection_name,
-            query_vector=vector,
+            query=vector,
             limit=1
-        )
+        ).points
 
         # Si un vecteur similaire existe déjà à plus de 'threshold' %
         if search_result and search_result[0].score >= threshold:
@@ -71,6 +73,10 @@ class QdrantGuardianStore:
 # --- Test d'exécution ---
 if __name__ == "__main__":
     store = QdrantGuardianStore()
+    
+    # Ligne de nettoyage pour le test local :
+    store.client.delete_collection(collection_name=store.collection_name)
+    store._ensure_collection_exists()
 
     doc_1 = "Rapport financier Q1 : Les revenus ont augmenté de 15 % au premier trimestre 2026."
     metadata = {"source": "finance_dept", "author": "DataOps Team"}
