@@ -15,7 +15,7 @@ Deploying Generative AI (RAG) at scale introduces two critical engineering chall
 2. **Cost & Latency Explosion:** Re-embedding duplicate or near-duplicate documents wastes API compute costs and pollutes search accuracy.
 
 
-##Architecture Overview
+## Architecture Overview
 
 ```text
 [ Raw Data Ingestion ] 
@@ -30,12 +30,13 @@ Deploying Generative AI (RAG) at scale introduces two critical engineering chall
 [ Semantic Deduplication ] ──► (Qdrant HNSW Similarity Check >= 95%)
     ├── Duplicate ──► [ REJECT & ALERT ]
     └── New Data  ──► [ UPSERT TO QDRANT ]
+```
 
 ## Quickstart
 
 docker-compose up -d 
 
-access services : 
+## Access services : 
 
 -Qdrant Dashboard : http://localhost:6333/dashboard
 
