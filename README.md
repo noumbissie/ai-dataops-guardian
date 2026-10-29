@@ -40,7 +40,7 @@ docker-compose up -d
 
 -Qdrant Dashboard : http://localhost:6333/dashboard
 
--Airflow Web UI : http://localhost:8080 
+-Airflow Web UI : http://localhost:8083 
 
 ## Key Technical Features
 
