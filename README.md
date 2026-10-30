@@ -26,8 +26,9 @@ Deploying Generative AI (RAG) at scale introduces two critical engineering chall
 [ Semantic Deduplication ] ──► (Qdrant HNSW Similarity Check >= 95%)
     ├── Duplicate ──► [ REJECT & ALERT ]
     └── New Data  ──► [ UPSERT TO QDRANT ]
-
+```
 ## 🚀 Quickstart
+
 
 Run the complete pipeline locally in 1 command:
 Bash
