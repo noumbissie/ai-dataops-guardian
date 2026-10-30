@@ -27,22 +27,22 @@ Deploying Generative AI (RAG) at scale introduces two critical engineering chall
     ├── Duplicate ──► [ REJECT & ALERT ]
     └── New Data  ──► [ UPSERT TO QDRANT ]
 
-🚀 Quickstart
+## 🚀 Quickstart
 
 Run the complete pipeline locally in 1 command:
 Bash
 
 docker-compose up -d
 
-Access services:
+## Access services:
 
     Qdrant Dashboard: http://localhost:6333/dashboard
 
     Airflow Web UI: http://localhost:8083 (credentials: airflow / airflow)
 
-🛠️ Key Technical Features
+## 🛠️ Key Technical Features
 
-    Deterministic PII Masking: Anonymizes sensitive tags (<EMAIL_MASKED>, <PHONE_MASKED>) before embedding.
+    Deterministic PII Masking: Anonymizes sensitive tags (<EMAIL_MASKED>, <PHONE_MASKED>, <IBAN_MASKED>) before embedding.
 
     HNSW Semantic Deduplication: Uses Qdrant cosine distance to detect and block duplicates at index-time.
 
