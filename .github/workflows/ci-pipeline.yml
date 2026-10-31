@@ -32,4 +32,4 @@ jobs:
 
     - name: Exécution des tests unitaires (PyTest)
       run: |
-        PYTHONPATH =. pytest -v
+        PYTHONPATH =. pytest 
